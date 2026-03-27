@@ -1,3 +1,33 @@
 Python for Machine Learning & Data Science Masterclass
 
+The path you'll follow to solve a data problem will lead you to build a data product (report, app, visualization, . . .) or perform a data analysis and present your findings. These are the steps you will follow.
+1. Collect and store data- Collect from physical sensors, simulations, surveys, usage data,. . . Then store in Database, CVS files, Excel files, cloud storage. Both collect and store data are Data engineering.
+
+2. Clean and organize data - reorganize, deal with missing data, restructure data. May be done with the previous one.
+
+3. Exploratory data analysis - Data Analysis - perform statistical analysis, visualizations, explore populations. If you are trying to answer a question, you might stop here, building visualizations, write a report, prepare communication material . . .
+
+4. Machine learning models - supervised (to predict future outcomes)or not supervised (to discover patterns in the data). Then use the model to create a service, a dashboard or an application (a data product).
+
+
+NUMPY
+it's te basis of almost every other useful library for Data Science.
+
+N-dimensional arrays, built in algebra.
+
+It allows to apply functions to whole collections of data very quickly.
+
+Arrays
+======
+Creation of arrays
+	- transforming lists
+	- build-in functions
+	- random data generators
+
+Indexing
+========
+arr[5]
+arr[2:4]
+arr[:4]
+arr[2:]
 
