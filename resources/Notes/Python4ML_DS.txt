@@ -3,11 +3,62 @@ Python for Machine Learning & Data Science Masterclass
 The path you'll follow to solve a data problem will lead you to build a data product (report, app, visualization, . . .) or perform a data analysis and present your findings. These are the steps you will follow.
 1. Collect and store data- Collect from physical sensors, simulations, surveys, usage data,. . . Then store in Database, CVS files, Excel files, cloud storage. Both collect and store data are Data engineering.
 
-2. Clean and organize data - reorganize, deal with missing data, restructure data. May be done with the previous one.
+2. Clean and organize data - reorganize, deal with missing data, restructure data. May be done with the previous one. (See "Feature Engineering" about this)
 
 3. Exploratory data analysis - Data Analysis - perform statistical analysis, visualizations, explore populations. If you are trying to answer a question, you might stop here, building visualizations, write a report, prepare communication material . . .
 
 4. Machine learning models - supervised (to predict future outcomes)or not supervised (to discover patterns in the data). Then use the model to create a service, a dashboard or an application (a data product).
+
+
+
+Feature Engineering
+
+Feature selection and data cleaning.
+Dates
+
+These are usually dates as one data point. For them to be used by a model, they shall be integers or floating point numbers. Decomposing them into three separate features (Year, Month, Day) works, having a timestamp (in the way "Seconds since era start") also works, but makes it more obscure, since it cannot be easily interpreted by humans. Week days may be converted into 1-7 one digit data points.
+Text
+
+Text fields can be processed to have them in int/float form by looking into the meaning or how many times some keywords are present there.
+Combining information
+
+Already done with polynomial regression.
+
+Can be done by grouping features that have synergies, or multiply features which, being desirable, don't usually come together, etc.
+
+Extract information, like creating a new feature containing whether a business opens during weekends and evenings, so it would have "Nightlife" active.
+Transforming information
+
+Common for string data.
+Integer Enconding
+
+Integer encoding uses natural numbers to encode each of the possible values (categories) of the given feature. You can also choose a known algorithm to encode the feature, like encoding country names with the phone national prefix, or colours with their RGB (or other color space) value. This introduces the problem of "ordering" given by the numbers themselves: the model might understand that the third encoded value is worth three times the first encoded value, or some precedence among them...
+
+You have to keep in mind any actual order among the categories, to encode them making the order explicit, like e.g. the priority of a task, or the seriousness of a medical condition.
+One Hot Encoding
+
+One Hot Encoding (Dummy variables) uses one new feature for each existing category, so the corresponding feature will have value 1 when the original feature holds the category that is equal to this new feature and 0 in all other cases. So for a feature that can take three values A,B,C, there will be three new features called A, B, and C; Feature A will be 1 in the original feature had the value A for this observation and 0 otherwise; Feature B will be 1 if the original feature has value B for this observation and 0 otherwise; and the same for new feature C (1 only if original was C). Be careful to have one new feature for every possible value of the original feature. One shortcomming of this technique is that it increases the number of features of the dataset, but it avoids implying any order or precedence among values.
+
+In some cases the number of possible categories (and hence the new features) may be too big, so you may want to transform the categories in higher level categories. For example going for continents or subcontinents instead of countries; for quarters instead of months; for instrument families instead of instruments; Genus, Families or Orders instead of species. . .
+
+This can be easily done with pandas .map() or .apply() and when going for higher level categories, it requires domain expertise.
+
+One more problem of Dummy Variables is the multicolinearity: one column depends on another or all other. For example, encoding direction what is not left is right, so only one is needed; if you have the physical state you only need 'gas', 'plasma', and 'liquid', because everything else is 'solid'; in the case of five possible categories, the fifth one is what rests when all other four are zero. So you can just drop one of the columns, because its value is encoded in the set of all other columns. Pandas has included the parameters "drop_first" and "drop_last" to account for this. The shortcomming of dealing with multicolinearity is that if in the future one more category appears in the original feature, you must add a new Dummy Variable with all previous observations with value zero and one in the new observation; example of this might be when shipping products to a new market/country, accounting for a new medical condition, dealing with a new product (e.g. hybrid fruit).
+Challenges in Feature Engineering (and data cleaning)
+
+    Outliers
+    Missing data
+    Categorical data
+    tasks will be domain dependend and data dependent
+
+There is no "one fits all".
+
+
+
+
+
+
+
 
 
 NUMPY
@@ -31,3 +82,74 @@ arr[2:4]
 arr[:4]
 arr[2:]
 
+List comprehension
+==================
+Generate a list with one expresion, that iterates on the list
+
+This loop to calculate the squares of the even numbers of less than 7 digits:
+numbers = range(1000000)
+squared_list = []
+for n in numbers:
+    if n%2 == 0
+        squared_list.append(n ** 2)
+
+Is done this way with list comprehension:
+numbers = range(1000000)
+squared_list = [n ** 2 for n in numbers if n%2 == 0]
+
+And can be made into a generator that lazyly generates each number on request:
+numbers = range(1000000)
+squared_gen = (n ** 2 for n in numbers if n%2 == 0)
+
+You would use the squared_gen like this:
+print(next(squared_gen))
+print(next(squared_gen))
+
+# then the generator has only generated two numbers: 0 and 4
+
+
+Decorators
+==========
+In the example of timing function execution:
+
+import time
+
+def process_data():
+    start = time.time()
+    # ... function logic ...
+    end = time.time()
+    print(f"process_data took {end - start:.4f}s")
+
+def train_model():
+    start = time.time()
+    # ... function logic ...
+    end = time.time()
+    print(f"train_model took {end - start:.4f}s")
+
+def generate_report():
+    start = time.time()
+    # ... function logic ...
+    end = time.time()
+    print(f"generate_report took {end - start:.4f}s")
+
+
+While it all seems to use the same lines, so you can use instead:
+
+import time
+from functools import wraps
+
+def timer_decorator(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args,**kwargs)
+        end = time.time()
+        print(f"{func.__name__} took {end - start:.4f}s")
+        return result
+    return wrapper
+
+@time_decorator
+def heavy_computation():
+    return sum(range(10**7))
+
+heavy_computation()
