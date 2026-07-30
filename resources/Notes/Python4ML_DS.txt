@@ -153,3 +153,4 @@ def heavy_computation():
     return sum(range(10**7))
 
 heavy_computation()
+
