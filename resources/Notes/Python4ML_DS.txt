@@ -55,6 +55,8 @@ There is no "one fits all".
 
 
 
+Classification is used for discrete features.
+Regression is used for continuous features.
 
 
 
@@ -148,9 +150,19 @@ def timer_decorator(func):
         return result
     return wrapper
 
-@time_decorator
+@timer_decorator
 def heavy_computation():
     return sum(range(10**7))
 
 heavy_computation()
 
+Use knowledge from project
+C:\D\GitRepos\Python\py4DataEngineering\etl_project_gdp\etl_project_gdp.py
+
+and scrap data from:
+https://apps.aavso.org/webobs/results/?star=000-BBW-825&num_results=200&page=1
+https://apps.aavso.org/webobs/results/?star=000-BBW-825&num_results=200&page=2
+
+Start from waybackmachine:
+https://web.archive.org/web/20250327175309/https://apps.aavso.org/webobs/results/?star=000-BBW-825&num_results=200&page=1
+that contains data until 2460762.00486	(2025 Mar. 27.50486)
