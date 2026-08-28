@@ -184,6 +184,41 @@ list_colormaps=['magma', 'inferno', 'plasma', 'viridis', 'cividis', 'twilight', 
 cmapslist=list_palettes + list_colormaps
 
 
+
+Unsupervised Learning
+ - There is no "correct" label for the observations
+ - The Unsupervised Learning algorithms try to find clusters of data observations
+ - Because there is no correct label given, there is a lack of metrics about accuracy and how correct the found answer is
+ - Due to the lack of accuracy metrics, different methods cannot be compared objectively
+ - Unsupervised Learning will try to
+		- group data points together in clusters, or
+		- Reduce the number of features to a easier number to humanly handle
+ - There is no truth to start with, so "how good the result is?" is a matter of interpretation
+ - K-Nearest Neighbors and K-Means Clustering are completely different algorithms that happen to have a 'K' in the name
+ 
+ 
+ Image Quantization
+K-Means clusteringn can be used to reduce the color depth of an image.
+Reduce the image dimensions from 3D (height, width, color) to 2D (height x width, color) by using
+		h,w,c=original_image.shape
+		2d_image=image_as_array.reshape(h*w,c)
+Initiate K-Means with the number of clusters equal to the desired number of colors.
+		model=KMeans(n_clusters=13)
+Fit the model to the 2D image, so the model finds the desired number of clusters and assigns each pixel to one of them
+		cluster_assignments=model.fit_predict(image_as_array2d)
+Convert the cluster centers into the RGB code for each final color
+		rgb_codes=model.cluster_centers_.round(0).astype(int)
+Substitute each pixel color with the new assigned final color and convert the image back into 3D (height, width, color)
+		quantized_image=numpy.reshape(rgb_codes[cluster_assignments],(h,w,c))
+You can use matplotlib.image to read in the most common image formats (with image_array=mpimg.imread()) and matplotlib.pyplot to display them (with pyplot.imshow(image_array))
+ 
+
+
+
+
+
+
+
 Use knowledge from project
 C:\D\GitRepos\Python\py4DataEngineering\etl_project_gdp\etl_project_gdp.py
 
