@@ -213,6 +213,21 @@ Substitute each pixel color with the new assigned final color and convert the im
 You can use matplotlib.image to read in the most common image formats (with image_array=mpimg.imread()) and matplotlib.pyplot to display them (with pyplot.imshow(image_array))
  
 
+Model Deployment
+To deploy a model, you can just use Flask.
+Once "dumped" to a file with joblib, which we saw that allows to re-load the traained model and it's columns, you can run it as a Flask app.
+
+ - Declare a route to accept POST (this is where the new data comes in)
+ - Take the input data from teh POST and run the model on it, return the prediction.
+ 
+This all can be tested locally with any framework that allows you to send HTTP requests, like "postman app".
+
+In the course GIT, under Notes/26_ModelDeployment/mynewapi.py you can see this very example. Run that .py with python and it will listen on port 5000.
+Then use any framework to send in a POST with raw JSON data:
+		[{"TV":230.1,"radio":37.8,"newspaper":69.2}]
+and it will answer something in the form
+		{"prediction": "[np.float64(21.99000000000001)]"}
+
 
 
 
@@ -229,3 +244,6 @@ https://apps.aavso.org/webobs/results/?star=000-BBW-825&num_results=200&page=2
 Start from waybackmachine:
 https://web.archive.org/web/20250327175309/https://apps.aavso.org/webobs/results/?star=000-BBW-825&num_results=200&page=1
 that contains data until 2460762.00486	(2025 Mar. 27.50486)
+
+
+
